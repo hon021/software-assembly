@@ -122,13 +122,16 @@ Los resultados de gate distinguen `passed`, `failed`, `not-applicable` y `not-ex
 - [x] Definición de CI para build, pruebas y auditoría de dependencias.
 - [x] Workflow GitHub Actions y controles CI verificados localmente.
 - [x] Publicación y primera ejecución alojada de Motor CI aprobada.
+- [x] Protección de main aplicada y verificada por API: PR y Motor CI obligatorios; sin force push ni borrado, incluso para administradores.
 - [x] Registro local con firmas autorizadas por dominio, publicación exclusiva y verificación de pins.
 - [x] Contrato backend/frontend, perfil versionado, planificación y comparación de versiones observadas.
 - [x] Smoke test real en Windows con Node/pnpm/Chromium portables y evidencia backend/frontend.
+- [x] Plantilla portable, lockfile y materialización de smoke frontend; validación local completa sobre copia nueva.
 - [ ] Aceptación humana de decisiones y responsables de dominio reales.
 - [ ] Configurar autoridades reales, proteger almacenamiento y operar el flujo humano de aprobación y firma.
 - [x] Publicar una versión corregida del perfil y repetir la auditoría frontend: cero vulnerabilidades conocidas reportadas en la versión actual.
 - [ ] Implementar validación en un runner aislado y autorizar herramientas y adaptadores.
-- [ ] Configurar protección de main y verificar que Motor CI bloquee PRs fallidos.
+- [ ] Comprobar con un PR negativo que Motor CI impide completar un merge fallido.
+- [ ] Publicar por PR el smoke reproducible y observar su job alojado y check agregado.
 
-La fase permanece en curso. El smoke test verifica compatibilidad técnica, no reglas de negocio ni los pilotos completos hasta PR previstos para la fase 2. Véase [Validación local](validacion-local-perfil.md). El repositorio GitHub y Motor CI están activos, con primera ejecución aprobada; protección de rama y aceptación operativa siguen pendientes. Las decisiones y evidencia necesarias para cerrar se enumeran en [Cierre de fase 1](cierre-fase-1.md).
+La fase permanece en curso. El smoke test verifica compatibilidad técnica, no reglas de negocio ni los pilotos completos hasta PR previstos para la fase 2. Véase [Validación local](validacion-local-perfil.md). El repositorio GitHub, Motor CI y la protección de main están activos; prueba negativa de PR, smoke reproducible y aceptación operativa siguen pendientes. Las decisiones y evidencia necesarias para cerrar se enumeran en [Cierre de fase 1](cierre-fase-1.md).

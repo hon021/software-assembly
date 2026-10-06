@@ -37,7 +37,8 @@ if (command === 'prepare') {
     if (error.status !== 128) throw error;
     console.log(run('init', '--initial-branch=main'));
   }
-  if (run('branch', '--show-current') !== 'main') throw new Error('Expected main; no branch will be renamed.');
+  const expectedBranch = process.argv[3] ?? 'main';
+  if (run('branch', '--show-current') !== expectedBranch) throw new Error('Unexpected branch; no branch will be renamed.');
   const remotes = run('remote').split(/\r?\n/);
   if (remotes.includes('origin')) {
     if (run('remote', 'get-url', 'origin') !== remote) throw new Error('Existing origin differs from requested destination.');
@@ -73,8 +74,10 @@ if (command === 'commit') {
 
 if (command === 'push') {
   if (run('remote', 'get-url', 'origin') !== remote) throw new Error('Remote destination changed.');
+  const branch = run('branch', '--show-current');
+  if (!branch || branch === 'main') throw new Error('Direct push to main is disabled. Use a work branch and pull request.');
   const files = run('ls-tree', '-r', '--name-only', 'HEAD').split(/\r?\n/).filter(Boolean);
   if (files.some(filename => excluded.test(filename))) throw new Error('Excluded directory found in committed tree.');
-  execFileSync(git, ['push', '-u', 'origin', 'main'], { cwd: root, stdio: 'inherit' });
-  console.log(`Published commit ${run('rev-parse', '--short', 'HEAD')} to origin/main.`);
+  execFileSync(git, ['push', '-u', 'origin', branch], { cwd: root, stdio: 'inherit' });
+  console.log(`Published commit ${run('rev-parse', '--short', 'HEAD')} to work branch.`);
 }

@@ -13,7 +13,8 @@ Estado: base y validación local conformes; cierre formal pendiente.
 | Perfil backend/frontend corregido | Versión `2.0.2` publicada localmente. | Versiones anteriores conservadas; overrides auditables. |
 | Validación funcional frontend | Conforme. | Lint, build, 2 unitarias y 1 Chromium. |
 | Auditoría frontend | Conforme en el lockfile probado. | Sin vulnerabilidades conocidas reportadas. |
-| CI del motor | Workflow GitHub Actions publicado y primera ejecución alojada aprobada. | [Ejecución #1](https://github.com/hon021/software-assembly/actions/runs/37531738965); protección de rama pendiente. |
+| Smoke reproducible | Plantilla, lockfile y generador conformes localmente. | Instalación, lint, build, 2 unitarias y 1 Chromium desde copia nueva; publicación por PR pendiente. |
+| CI del motor | Workflow activo y main protegida con PR y Motor CI obligatorios. | [Ejecución #1](https://github.com/hon021/software-assembly/actions/runs/37531738965) aprobada; protección releída por API, prueba negativa de PR pendiente. |
 
 El [informe de validación](validacion-local-perfil.md) conserva el historial de fallos y sus correcciones. Una prueba local conforme no equivale a una aprobación humana ni a un servicio desplegado.
 
@@ -22,7 +23,7 @@ El [informe de validación](validacion-local-perfil.md) conserva el historial de
 | Pendiente | Información o autorización necesaria | Evidencia de cierre |
 |---|---|---|
 | Publicación del repositorio propio | Git local inicializado en `main`, remoto GitHub creado y publicación autorizada. | Commit publicado y árbol verificado sin referencias, herramientas o artefactos temporales. |
-| CI y políticas de PR | Identidad autorizada y permisos sobre repositorio y pipelines. | Build alojado conforme y política que bloquee PRs con validación fallida. |
+| Prueba de políticas de PR | Autorización para crear una rama y PR de comprobación, sin merge de código fallido. | Evidencia de que CI fallido impide completar el PR; regla ya configurada. |
 | Entorno aislado | Runner autorizado, imagen o VM y límites de red, recursos y permisos. | Smoke regenerado desde copia limpia y prueba de aislamiento. |
 | Autoridades reales | Identidades de responsables y claves públicas confiables con alcance por dominio. | Paquete real aprobado y firma verificada, sin claves privadas en el agente. |
 | Almacenamiento protegido | Ubicación y responsable operativo; permisos separados de publicador e implementador. | Intentos no autorizados de modificación rechazados y recuperación documentada. |

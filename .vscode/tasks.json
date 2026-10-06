@@ -2,6 +2,97 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "Repository: publish smoke PR",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/publish-smoke-pr.mjs", "--publish"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Smoke repro: create",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/run-frontend-smoke.mjs", "create"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Smoke repro: install",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/run-frontend-smoke.mjs", "install"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Smoke repro: lint",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/run-frontend-smoke.mjs", "lint"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Smoke repro: build",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/run-frontend-smoke.mjs", "build"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Smoke repro: unit",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/run-frontend-smoke.mjs", "unit"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Smoke repro: browser",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/run-frontend-smoke.mjs", "browser"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Smoke repro: e2e",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/run-frontend-smoke.mjs", "e2e"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Smoke repro: audit",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/run-frontend-smoke.mjs", "audit"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Smoke repro: generate lockfile",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/.tools/pnpm/node_modules/pnpm/bin/pnpm.cjs", "install", "--lockfile-only", "--strict-peer-dependencies", "--reporter=append-only"],
+			"options": {
+				"cwd": "${workspaceFolder}/tests/fixtures/frontend-smoke",
+				"env": { "PATH": "${workspaceFolder}/.tools/node-v22.16.0-win-x64;${env:PATH}" }
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Repository: protect main",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/configure-main-protection.mjs", "--apply"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
 			"label": "Repository: commit CI",
 			"type": "process",
 			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
