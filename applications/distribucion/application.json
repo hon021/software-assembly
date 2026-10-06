@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "1.0", "id": "distribucion", "targetRepository": "distribucion",
+  "domain": { "id": "logistica", "version": "1.0.0", "boundedContexts": ["envios"] },
+  "technicalProfile": { "id": "dotnet-angular", "version": "2.0.2" },
+  "deliveryPolicy": { "id": "entrega-estandar", "version": "1.0.0" }
+}

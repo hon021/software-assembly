@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "1.0", "id": "logistica", "version": "1.0.0", "owner": "responsable-piloto-logistica",
+  "approval": { "status": "approved", "approvedBy": "revisor-sintetico" },
+  "boundedContexts": ["envios"],
+  "glossary": [{ "term": "Envio", "definition": "Traslado de una carga desde un origen hasta un destino." }],
+  "sources": [{ "id": "requisitos-piloto", "description": "Fuente ficticia utilizada exclusivamente para pruebas de plataforma." }],
+  "rules": [{ "id": "envio-con-destino", "context": "envios", "source": "requisitos-piloto", "description": "Un envio debe tener un destino definido." }]
+}

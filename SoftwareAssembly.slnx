@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/SoftwareAssembly.Core/SoftwareAssembly.Core.csproj" />
+  <Project Path="tests/SoftwareAssembly.Core.Tests/SoftwareAssembly.Core.Tests.csproj" />
+</Solution>

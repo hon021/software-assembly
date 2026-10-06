@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "1.0", "id": "comercio", "version": "1.0.0", "owner": "responsable-piloto-comercio",
+  "approval": { "status": "approved", "approvedBy": "revisor-sintetico" },
+  "boundedContexts": ["pedidos"],
+  "glossary": [{ "term": "Pedido", "definition": "Solicitud de compra de uno o varios productos." }],
+  "sources": [{ "id": "requisitos-piloto", "description": "Fuente ficticia utilizada exclusivamente para pruebas de plataforma." }],
+  "rules": [{ "id": "pedido-con-productos", "context": "pedidos", "source": "requisitos-piloto", "description": "Un pedido debe contener al menos un producto." }]
+}

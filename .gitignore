@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+TestResults/
+.vs/
+*.user
+*.suo
+.env
+*.local.json
+/Base/
+/.tools/
+/artifacts/
+**/node_modules/
+**/.angular/

@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "1.0", "id": "entrega-estandar", "version": "1.0.0",
+  "maxImplementationAttempts": 3,
+  "requiredGates": ["build", "tests", "test-integrity", "contract-drift", "security"],
+  "humanReviewRequired": true, "autonomousMerge": false, "productionApprovalRequired": true
+}

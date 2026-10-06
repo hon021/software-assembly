@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "1.0", "id": "dotnet-angular", "version": "1.0.0",
+  "backend": ".NET 10", "frontend": "Angular",
+  "build": { "executable": "dotnet", "arguments": ["build", "--configuration", "Release"] },
+  "test": { "executable": "dotnet", "arguments": ["test", "--configuration", "Release"] }
+}

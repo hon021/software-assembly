@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$" },
+    "version": { "type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$" },
+    "text": { "type": "string", "pattern": "\\S" },
+    "reference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" } }
+    },
+    "application": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "id", "targetRepository", "domain", "technicalProfile", "deliveryPolicy"],
+      "properties": {
+        "schemaVersion": { "const": "1.0" },
+        "id": { "$ref": "#/$defs/id" },
+        "targetRepository": { "$ref": "#/$defs/id" },
+        "domain": {
+          "type": "object", "additionalProperties": false,
+          "required": ["id", "version", "boundedContexts"],
+          "properties": {
+            "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" },
+            "boundedContexts": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }
+          }
+        },
+        "technicalProfile": { "$ref": "#/$defs/reference" },
+        "deliveryPolicy": { "$ref": "#/$defs/reference" }
+      }
+    },
+    "domain": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "id", "version", "owner", "approval", "boundedContexts", "glossary", "sources", "rules"],
+      "properties": {
+        "schemaVersion": { "const": "1.0" },
+        "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" },
+        "owner": { "$ref": "#/$defs/text" },
+        "approval": {
+          "type": "object", "additionalProperties": false, "required": ["status"],
+          "properties": { "status": { "enum": ["draft", "approved"] }, "approvedBy": { "$ref": "#/$defs/text" } },
+          "if": { "properties": { "status": { "const": "approved" } } },
+          "then": { "required": ["approvedBy"] }
+        },
+        "boundedContexts": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+        "glossary": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["term", "definition"],
+            "properties": { "term": { "$ref": "#/$defs/text" }, "definition": { "$ref": "#/$defs/text" } }
+          }
+        },
+        "sources": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["id", "description"],
+            "properties": { "id": { "$ref": "#/$defs/id" }, "description": { "$ref": "#/$defs/text" } }
+          }
+        },
+        "rules": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["id", "context", "source", "description"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" }, "context": { "$ref": "#/$defs/id" },
+              "source": { "$ref": "#/$defs/id" }, "description": { "$ref": "#/$defs/text" }
+            }
+          }
+        }
+      }
+    },
+    "profile": {
+      "oneOf": [{ "$ref": "#/$defs/legacyProfile" }, { "$ref": "#/$defs/executableProfile" }]
+    },
+    "legacyProfile": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "id", "version", "backend", "frontend", "build", "test"],
+      "properties": {
+        "schemaVersion": { "const": "1.0" }, "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" },
+        "backend": { "$ref": "#/$defs/text" }, "frontend": { "$ref": "#/$defs/text" },
+        "build": { "$ref": "#/$defs/command" }, "test": { "$ref": "#/$defs/command" }
+      }
+    },
+    "relativePath": { "type": "string", "pattern": "^(?:\\.|[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*)$" },
+    "executableProfile": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "id", "version", "toolchain", "layout", "execution", "stages"],
+      "properties": {
+        "schemaVersion": { "const": "1.1" }, "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" },
+        "toolchain": {
+          "type": "object", "required": ["dotnet", "node", "pnpm", "angular", "typescript", "vitest", "playwright"],
+          "additionalProperties": false,
+          "properties": {
+            "dotnet": { "$ref": "#/$defs/version" }, "node": { "$ref": "#/$defs/version" },
+            "pnpm": { "$ref": "#/$defs/version" }, "angular": { "$ref": "#/$defs/version" },
+            "typescript": { "$ref": "#/$defs/version" }, "vitest": { "$ref": "#/$defs/version" },
+            "playwright": { "$ref": "#/$defs/version" },
+            "eslint": { "$ref": "#/$defs/version" }, "eslintJavaScript": { "$ref": "#/$defs/version" },
+            "eslintTypescript": { "$ref": "#/$defs/version" }
+          }
+        },
+        "dependencyOverrides": {
+          "type": "array", "uniqueItems": true,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["parent", "package", "version", "advisory"],
+            "properties": {
+              "parent": { "$ref": "#/$defs/packageName" }, "package": { "$ref": "#/$defs/packageName" },
+              "version": { "$ref": "#/$defs/version" },
+              "advisory": { "type": "string", "pattern": "^GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}$" }
+            }
+          }
+        },
+        "layout": {
+          "type": "object", "additionalProperties": false,
+          "required": ["backend", "frontend", "solution", "packageManifest", "lockfile"],
+          "properties": {
+            "backend": { "$ref": "#/$defs/relativePath" }, "frontend": { "$ref": "#/$defs/relativePath" },
+            "solution": { "$ref": "#/$defs/relativePath" }, "packageManifest": { "$ref": "#/$defs/relativePath" },
+            "lockfile": { "$ref": "#/$defs/relativePath" }
+          }
+        },
+        "execution": {
+          "type": "object", "additionalProperties": false, "required": ["shell", "requireVersionCheck"],
+          "properties": { "shell": { "const": false }, "requireVersionCheck": { "const": true } }
+        },
+        "stages": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["id", "component", "operation", "tool", "arguments", "workingDirectory", "dependsOn", "when", "timeoutSeconds", "evidenceDirectories"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "component": { "enum": ["backend", "frontend"] },
+              "operation": { "enum": ["restore", "lint", "build", "test", "prepare-e2e", "e2e"] },
+              "tool": { "enum": ["dotnet", "node", "pnpm"] },
+              "arguments": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/text" } },
+              "workingDirectory": { "$ref": "#/$defs/relativePath" },
+              "dependsOn": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+              "when": { "enum": ["always", "e2e"] },
+              "timeoutSeconds": { "type": "integer", "minimum": 1, "maximum": 1800 },
+              "evidenceDirectories": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/relativePath" } },
+              "environment": {
+                "type": "object", "additionalProperties": false,
+                "properties": { "PLAYWRIGHT_JUNIT_OUTPUT_FILE": { "$ref": "#/$defs/relativePath" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "packageName": { "type": "string", "pattern": "^(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$" },
+    "command": {
+      "type": "object", "additionalProperties": false, "required": ["executable", "arguments"],
+      "properties": {
+        "executable": { "$ref": "#/$defs/text" },
+        "arguments": { "type": "array", "items": { "$ref": "#/$defs/text" } }
+      }
+    },
+    "policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "id", "version", "maxImplementationAttempts", "requiredGates", "humanReviewRequired", "autonomousMerge", "productionApprovalRequired"],
+      "properties": {
+        "schemaVersion": { "const": "1.0" }, "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" },
+        "maxImplementationAttempts": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "requiredGates": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+        "humanReviewRequired": { "const": true }, "autonomousMerge": { "const": false }, "productionApprovalRequired": { "const": true }
+      }
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "id", "status", "evidence"],
+      "properties": {
+        "schemaVersion": { "const": "1.0" }, "id": { "$ref": "#/$defs/id" },
+        "status": { "enum": ["passed", "failed", "not-applicable", "not-executed"] },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/text" } },
+        "reason": { "$ref": "#/$defs/text" }
+      },
+      "if": { "properties": { "status": { "const": "passed" } } },
+      "then": { "properties": { "evidence": { "minItems": 1 } } },
+      "else": { "required": ["reason"] }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.1", "id": "dotnet-angular", "version": "2.0.2",
+  "toolchain": {
+    "dotnet": "10.0.301", "node": "22.16.0", "pnpm": "10.11.0",
+    "angular": "21.2.25", "typescript": "5.9.3", "vitest": "4.1.11", "playwright": "1.56.1",
+    "eslint": "10.12.0", "eslintJavaScript": "10.0.1", "eslintTypescript": "8.71.1"
+  },
+  "dependencyOverrides": [
+    { "parent": "@angular/cli", "package": "@modelcontextprotocol/sdk", "version": "1.31.0", "advisory": "GHSA-6qxp-vccf-f47h" }
+  ],
+  "layout": {
+    "backend": "backend", "frontend": "frontend", "solution": "backend/Application.slnx",
+    "packageManifest": "frontend/package.json", "lockfile": "frontend/pnpm-lock.yaml"
+  },
+  "execution": { "shell": false, "requireVersionCheck": true },
+  "stages": [
+    {
+      "id": "backend-restore", "component": "backend", "operation": "restore", "tool": "dotnet", "arguments": ["restore", "Application.slnx", "--locked-mode"],
+      "workingDirectory": "backend", "dependsOn": [], "when": "always", "timeoutSeconds": 300, "evidenceDirectories": []
+    },
+    {
+      "id": "backend-build", "component": "backend", "operation": "build", "tool": "dotnet", "arguments": ["build", "Application.slnx", "--configuration", "Release", "--no-restore"],
+      "workingDirectory": "backend", "dependsOn": ["backend-restore"], "when": "always", "timeoutSeconds": 300, "evidenceDirectories": []
+    },
+    {
+      "id": "backend-test", "component": "backend", "operation": "test", "tool": "dotnet",
+      "arguments": ["test", "Application.slnx", "--configuration", "Release", "--no-build", "--logger", "trx", "--results-directory", "TestResults"],
+      "workingDirectory": "backend", "dependsOn": ["backend-build"], "when": "always", "timeoutSeconds": 300,
+      "evidenceDirectories": ["backend/TestResults"]
+    },
+    {
+      "id": "frontend-install", "component": "frontend", "operation": "restore", "tool": "pnpm", "arguments": ["install", "--frozen-lockfile"],
+      "workingDirectory": "frontend", "dependsOn": [], "when": "always", "timeoutSeconds": 300, "evidenceDirectories": []
+    },
+    {
+      "id": "frontend-lint", "component": "frontend", "operation": "lint", "tool": "pnpm", "arguments": ["run", "lint"],
+      "workingDirectory": "frontend", "dependsOn": ["frontend-install"], "when": "always", "timeoutSeconds": 120, "evidenceDirectories": []
+    },
+    {
+      "id": "frontend-build", "component": "frontend", "operation": "build", "tool": "pnpm", "arguments": ["exec", "ng", "build", "--configuration", "production"],
+      "workingDirectory": "frontend", "dependsOn": ["frontend-lint"], "when": "always", "timeoutSeconds": 300, "evidenceDirectories": []
+    },
+    {
+      "id": "frontend-test", "component": "frontend", "operation": "test", "tool": "pnpm",
+      "arguments": ["exec", "ng", "test", "--watch=false", "--reporters=default", "--reporters=junit", "--output-file=test-results/unit.xml"],
+      "workingDirectory": "frontend", "dependsOn": ["frontend-build"], "when": "always", "timeoutSeconds": 300,
+      "evidenceDirectories": ["frontend/test-results"]
+    },
+    {
+      "id": "browser-install", "component": "frontend", "operation": "prepare-e2e", "tool": "pnpm", "arguments": ["exec", "playwright", "install", "chromium"],
+      "workingDirectory": "frontend", "dependsOn": ["frontend-test"], "when": "e2e", "timeoutSeconds": 300, "evidenceDirectories": []
+    },
+    {
+      "id": "frontend-e2e", "component": "frontend", "operation": "e2e", "tool": "pnpm", "arguments": ["exec", "playwright", "test", "--project=chromium", "--reporter=junit"],
+      "workingDirectory": "frontend", "dependsOn": ["browser-install", "backend-test"], "when": "e2e", "timeoutSeconds": 600,
+      "evidenceDirectories": ["frontend/test-results"],
+      "environment": { "PLAYWRIGHT_JUNIT_OUTPUT_FILE": "test-results/e2e.xml" }
+    }
+  ]
+}

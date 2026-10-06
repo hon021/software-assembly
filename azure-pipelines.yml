@@ -1,0 +1,64 @@
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+  paths:
+    exclude:
+      - Base/**
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+
+  - task: UseDotNet@2
+    inputs:
+      packageType: sdk
+      version: 10.0.x
+    displayName: Install .NET SDK
+
+  - script: dotnet restore SoftwareAssembly.slnx
+    displayName: Restore motor dependencies
+
+  - script: dotnet build SoftwareAssembly.slnx --configuration Release --no-restore
+    displayName: Build motor
+
+  - script: dotnet test SoftwareAssembly.slnx --configuration Release --no-build --logger trx --results-directory $(Agent.TempDirectory)/testresults
+    displayName: Test configuration and transitions
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: VSTest
+      testResultsFiles: $(Agent.TempDirectory)/testresults/**/*.trx
+      failTaskOnFailedTests: true
+    displayName: Publish test evidence
+
+  - task: PowerShell@2
+    displayName: Audit motor dependencies
+    inputs:
+      pwsh: true
+      targetType: inline
+      script: |
+        $ErrorActionPreference = 'Stop'
+        $report = dotnet list SoftwareAssembly.slnx package --vulnerable --include-transitive --format json
+        if ($LASTEXITCODE -ne 0) { throw 'Dependency audit could not run.' }
+        $audit = ($report -join "`n") | ConvertFrom-Json
+        if ($audit.version -ne 1 -or !$audit.projects) { throw 'Unexpected audit report.' }
+        foreach ($project in $audit.projects) {
+          foreach ($framework in $project.frameworks) {
+            foreach ($package in @($framework.topLevelPackages) + @($framework.transitivePackages)) {
+              foreach ($vulnerability in $package.vulnerabilities) {
+                if ($vulnerability.severity -notin @('Low', 'Moderate', 'High', 'Critical')) {
+                  throw 'Unknown vulnerability severity.'
+                }
+                if ($vulnerability.severity -in @('High', 'Critical')) {
+                  throw "Blocking vulnerability: $($package.id)."
+                }
+                Write-Warning "Dependency advisory: $($package.id), $($vulnerability.severity)."
+              }
+            }
+          }
+        }

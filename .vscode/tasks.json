@@ -1,0 +1,179 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Repository: prepare",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/prepare-publication.mjs", "prepare"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Repository: verify",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/prepare-publication.mjs", "verify"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Repository: commit",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/prepare-publication.mjs", "commit"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Repository: push",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/prepare-publication.mjs", "push"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "Profile smoke: update dependencies",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": [
+				"${workspaceFolder}/.tools/pnpm/node_modules/pnpm/bin/pnpm.cjs",
+				"install",
+				"--strict-peer-dependencies",
+				"--reporter=append-only"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/artifacts/profile-smoke/frontend",
+				"env": {
+					"PATH": "${workspaceFolder}/.tools/node-v22.16.0-win-x64;${env:PATH}"
+				}
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Profile smoke: lint",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": [
+				"${workspaceFolder}/artifacts/profile-smoke/frontend/node_modules/eslint/bin/eslint.js",
+				"src",
+				"--max-warnings=0"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/artifacts/profile-smoke/frontend"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Profile smoke: build",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": [
+				"${workspaceFolder}/artifacts/profile-smoke/frontend/node_modules/@angular/cli/bin/ng.js",
+				"build",
+				"--configuration",
+				"production"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/artifacts/profile-smoke/frontend",
+				"env": {
+					"PATH": "${workspaceFolder}/.tools/node-v22.16.0-win-x64;${env:PATH}"
+				}
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Profile smoke: package metadata",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": [
+				"-e",
+				"const semver=require('./.tools/node-v22.16.0-win-x64/node_modules/npm/node_modules/semver'); Promise.all(['@angular/core','@angular/build','@angular/cli','vitest','eslint','typescript-eslint','jsdom','@playwright/test'].map(async name=>{const response=await fetch('https://registry.npmjs.org/'+encodeURIComponent(name),{signal:AbortSignal.timeout(30000)});if(!response.ok)throw new Error(name+': '+response.status);const data=await response.json();const range=name.startsWith('@angular/')?'^21.0.0':name==='vitest'?'^4.1.0':'*';const version=semver.maxSatisfying(Object.keys(data.versions),range);const selected=data.versions[version];return {name,version,engines:selected.engines,peers:selected.peerDependencies};})).then(data=>console.log(JSON.stringify(data,null,2))).catch(error=>{console.error(error.message);process.exitCode=1;});"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Profile smoke: E2E",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": [
+				"${workspaceFolder}/artifacts/profile-smoke/frontend/node_modules/@playwright/test/cli.js",
+				"test",
+				"--config=${workspaceFolder}/artifacts/profile-smoke/frontend/playwright.config.ts",
+				"--project=chromium",
+				"--reporter=junit"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Profile smoke: unit tests",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": [
+				"${workspaceFolder}/artifacts/profile-smoke/frontend/node_modules/@angular/cli/bin/ng.js",
+				"test",
+				"--watch=false",
+				"--reporters=default",
+				"--reporters=junit",
+				"--output-file=test-results/unit.xml"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/artifacts/profile-smoke/frontend",
+				"env": {
+					"PATH": "${workspaceFolder}/.tools/node-v22.16.0-win-x64;${workspaceFolder}/.tools/pnpm/node_modules/.bin;${env:PATH}"
+				}
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Profile smoke: frozen install",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": [
+				"${workspaceFolder}/.tools/pnpm/node_modules/pnpm/bin/pnpm.cjs",
+				"install",
+				"--frozen-lockfile",
+				"--reporter=append-only"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/artifacts/profile-smoke/frontend",
+				"env": {
+					"PATH": "${workspaceFolder}/.tools/node-v22.16.0-win-x64;${env:PATH}"
+				}
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Profile smoke: dependency audit",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": [
+				"${workspaceFolder}/.tools/pnpm/node_modules/pnpm/bin/pnpm.cjs",
+				"audit",
+				"--audit-level=high"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/artifacts/profile-smoke/frontend"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Motor: tests",
+			"type": "shell",
+			"command": "C:/Program Files/dotnet/dotnet.exe",
+			"args": [
+				"test",
+				"${workspaceFolder}/SoftwareAssembly.slnx",
+				"--configuration",
+				"Release"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
