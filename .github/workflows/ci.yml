@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   motor:
-    name: Motor CI
+    name: Motor checks
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -61,3 +61,79 @@ jobs:
             artifacts/ci/dependency-audit.json
           if-no-files-found: warn
           retention-days: 14
+
+  frontend:
+    name: Frontend smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.11.0'
+          run_install: false
+
+      - name: Materialize fresh frontend
+        run: node scripts/materialize-frontend-smoke.mjs artifacts/repro-frontend
+
+      - name: Frozen install
+        working-directory: artifacts/repro-frontend
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+
+      - name: Audit frontend dependencies
+        working-directory: artifacts/repro-frontend
+        run: pnpm audit --audit-level=high
+
+      - name: Lint
+        working-directory: artifacts/repro-frontend
+        run: pnpm run lint
+
+      - name: Production build
+        working-directory: artifacts/repro-frontend
+        run: pnpm run build
+
+      - name: Unit tests
+        working-directory: artifacts/repro-frontend
+        run: pnpm run test
+
+      - name: Install Chromium
+        working-directory: artifacts/repro-frontend
+        run: pnpm exec playwright install --with-deps --no-shell chromium
+
+      - name: Browser test
+        working-directory: artifacts/repro-frontend
+        run: pnpm run e2e
+
+      - name: Publish frontend evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/repro-frontend/test-results/
+          if-no-files-found: warn
+          retention-days: 14
+
+  required:
+    name: Motor CI
+    needs: [motor, frontend]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require both jobs to pass
+        env:
+          MOTOR_RESULT: ${{ needs.motor.result }}
+          FRONTEND_RESULT: ${{ needs.frontend.result }}
+        run: |
+          test "$MOTOR_RESULT" = "success"
+          test "$FRONTEND_RESULT" = "success"
