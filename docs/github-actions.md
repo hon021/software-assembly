@@ -1,7 +1,7 @@
 # CI en GitHub Actions
 
 Fecha: 2026-10-06  
-Estado: workflow definido y controles verificados localmente; ejecución alojada y protección de rama pendientes.
+Estado: workflow publicado y primera ejecución alojada aprobada; protección de rama pendiente.
 
 ## Workflow
 
@@ -36,7 +36,9 @@ node scripts/ci-checks.mjs audit-local artifacts/ci/dependency-audit.json
 
 En Windows con herramientas portables se pueden usar las tareas `CI: control tests` y `CI: dependency audit`. La selección explícita del ejecutable .NET se realiza mediante `SOFTWARE_ASSEMBLY_DOTNET`; en el runner alojado se usa la instalación provista por setup-dotnet.
 
-La suite de controles tiene 21 pruebas conformes y la auditoría local real no reportó avisos. Esto no sustituye ejecutar el workflow en GitHub; la primera ejecución alojada sigue pendiente.
+La suite de controles tiene 21 pruebas conformes y la auditoría local real no reportó avisos.
+
+La [primera ejecución alojada](https://github.com/hon021/software-assembly/actions/runs/37531738965) del commit `13c778a` terminó con `success` el 2026-10-06. Todos los pasos de `Motor CI` fueron aprobados: controles, exclusiones, restore, build, tests, auditoría y publicación de evidencia. La protección de rama no está configurada por este resultado.
 
 ## Activación y protección de main
 

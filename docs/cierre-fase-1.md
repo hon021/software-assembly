@@ -13,7 +13,7 @@ Estado: base y validación local conformes; cierre formal pendiente.
 | Perfil backend/frontend corregido | Versión `2.0.2` publicada localmente. | Versiones anteriores conservadas; overrides auditables. |
 | Validación funcional frontend | Conforme. | Lint, build, 2 unitarias y 1 Chromium. |
 | Auditoría frontend | Conforme en el lockfile probado. | Sin vulnerabilidades conocidas reportadas. |
-| CI del motor | Workflow GitHub Actions definido; controles y auditoría real verificados localmente. | Publicación, ejecución alojada y protección de rama pendientes; véase [Guía CI](github-actions.md). |
+| CI del motor | Workflow GitHub Actions publicado y primera ejecución alojada aprobada. | [Ejecución #1](https://github.com/hon021/software-assembly/actions/runs/37531738965); protección de rama pendiente. |
 
 El [informe de validación](validacion-local-perfil.md) conserva el historial de fallos y sus correcciones. Una prueba local conforme no equivale a una aprobación humana ni a un servicio desplegado.
 

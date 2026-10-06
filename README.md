@@ -30,7 +30,7 @@ Las pruebas validan los ejemplos de comercio y logística usando el mismo perfil
 - [profiles/dotnet-angular/2.0.2/profile.json](profiles/dotnet-angular/2.0.2/profile.json): contrato backend/frontend con herramientas fijadas y override de seguridad; validación local conforme.
 - [profiles/dotnet-angular/1.0.0/profile.json](profiles/dotnet-angular/1.0.0/profile.json): versión histórica descriptiva, conservada para auditoría; no admitida para ejecución.
 - [policies/entrega-estandar/1.0.0/policy.json](policies/entrega-estandar/1.0.0/policy.json): restricciones iniciales de entrega.
-- [.github/workflows/ci.yml](.github/workflows/ci.yml): CI del motor para GitHub Actions; ejecución alojada y protección de rama pendientes.
+- [.github/workflows/ci.yml](.github/workflows/ci.yml): CI del motor activo en GitHub Actions, con primera ejecución aprobada; protección de rama pendiente.
 - [azure-pipelines.yml](azure-pipelines.yml): definición alternativa no activa.
 
 ## Incorporar un dominio
