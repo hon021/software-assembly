@@ -47,7 +47,7 @@ if (command === 'prepare') {
   if (trackedFiles().some(filename => excluded.test(filename)))
     throw new Error('Excluded files are already tracked; no files will be removed automatically.');
   run('check-ignore', 'Base/', '.tools/', 'artifacts/');
-  const paths = ['.gitignore', '.vscode', 'README.md', 'global.json', 'SoftwareAssembly.slnx',
+  const paths = ['.gitignore', '.github', '.vscode', 'README.md', 'global.json', 'SoftwareAssembly.slnx',
     'azure-pipelines.yml', 'applications', 'docs', 'domains', 'policies', 'profiles', 'schemas', 'scripts', 'src', 'tests'];
   run('add', '--', ...paths);
   const files = trackedFiles();
@@ -65,7 +65,7 @@ if (command === 'verify') {
 
 if (command === 'commit') {
   verifyFiles(trackedFiles());
-  console.log(run('commit', '-m', 'Initialize domain-independent software assembly foundation'));
+  console.log(run('commit', '-m', process.argv[3] ?? 'Initialize domain-independent software assembly foundation'));
   const files = run('ls-tree', '-r', '--name-only', 'HEAD').split(/\r?\n/).filter(Boolean);
   if (files.some(filename => excluded.test(filename))) throw new Error('Excluded directory found in committed tree.');
   console.log(`Commit tree verified: ${files.length} files; excluded directories absent.`);

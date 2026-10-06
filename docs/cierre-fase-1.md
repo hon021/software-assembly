@@ -13,7 +13,7 @@ Estado: base y validación local conformes; cierre formal pendiente.
 | Perfil backend/frontend corregido | Versión `2.0.2` publicada localmente. | Versiones anteriores conservadas; overrides auditables. |
 | Validación funcional frontend | Conforme. | Lint, build, 2 unitarias y 1 Chromium. |
 | Auditoría frontend | Conforme en el lockfile probado. | Sin vulnerabilidades conocidas reportadas. |
-| CI del motor | Definido, no registrado ni observado remotamente. | Definición YAML local. |
+| CI del motor | Workflow GitHub Actions definido; controles y auditoría real verificados localmente. | Publicación, ejecución alojada y protección de rama pendientes; véase [Guía CI](github-actions.md). |
 
 El [informe de validación](validacion-local-perfil.md) conserva el historial de fallos y sus correcciones. Una prueba local conforme no equivale a una aprobación humana ni a un servicio desplegado.
 
@@ -35,7 +35,7 @@ No se solicitarán contraseñas, tokens o claves privadas en documentos o respue
 ## Orden para terminar
 
 1. Publicar únicamente archivos propios y verificar el contenido del commit.
-2. Seleccionar y registrar CI para el repositorio GitHub y configurar sus políticas; la definición Azure Pipelines local no se activa automáticamente al hacer push.
+2. Publicar el workflow GitHub Actions, verificar una ejecución alojada y configurar sus políticas; el YAML no activa automáticamente la protección de rama.
 3. Autorizar el runner o VM y ejecutar el smoke desde una copia limpia, sin material de referencia.
 4. Configurar autoridades y almacenamiento reales y comprobar publicación y lectura protegidas.
 5. Revisar y aprobar formalmente las decisiones y criterios de salida de fase 1.

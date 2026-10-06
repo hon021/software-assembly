@@ -1,0 +1,63 @@
+name: Software Assembly CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  motor:
+    name: Motor CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install Node.js for CI checks
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+
+      - name: Test CI controls
+        run: node --test scripts/ci-checks.test.mjs
+
+      - name: Verify repository exclusions
+        run: node scripts/ci-checks.mjs repository
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.301'
+
+      - name: Restore
+        run: dotnet restore SoftwareAssembly.slnx
+
+      - name: Build
+        run: dotnet build SoftwareAssembly.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test SoftwareAssembly.slnx --configuration Release --no-build --logger trx --results-directory artifacts/ci/test-results
+
+      - name: Audit dependencies
+        run: node scripts/ci-checks.mjs audit-local artifacts/ci/dependency-audit.json
+
+      - name: Publish CI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: motor-ci-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/ci/test-results/**/*.trx
+            artifacts/ci/dependency-audit.json
+          if-no-files-found: warn
+          retention-days: 14

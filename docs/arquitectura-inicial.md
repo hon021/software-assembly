@@ -120,6 +120,7 @@ Los resultados de gate distinguen `passed`, `failed`, `not-applicable` y `not-ex
 - [x] Esquemas iniciales para aplicación, dominio, perfil, política y gates.
 - [x] Resolución de referencias y digests con ejemplos de dos negocios.
 - [x] Definición de CI para build, pruebas y auditoría de dependencias.
+- [x] Workflow GitHub Actions y controles CI verificados localmente.
 - [x] Registro local con firmas autorizadas por dominio, publicación exclusiva y verificación de pins.
 - [x] Contrato backend/frontend, perfil versionado, planificación y comparación de versiones observadas.
 - [x] Smoke test real en Windows con Node/pnpm/Chromium portables y evidencia backend/frontend.
@@ -127,6 +128,6 @@ Los resultados de gate distinguen `passed`, `failed`, `not-applicable` y `not-ex
 - [ ] Configurar autoridades reales, proteger almacenamiento y operar el flujo humano de aprobación y firma.
 - [x] Publicar una versión corregida del perfil y repetir la auditoría frontend: cero vulnerabilidades conocidas reportadas en la versión actual.
 - [ ] Implementar validación en un runner aislado y autorizar herramientas y adaptadores.
-- [ ] Registrar y observar CI en un servicio de pipelines y configurar políticas de PR.
+- [ ] Publicar y observar el workflow GitHub Actions y configurar protección de main y políticas de PR.
 
 La fase permanece en curso. El smoke test verifica compatibilidad técnica, no reglas de negocio ni los pilotos completos hasta PR previstos para la fase 2. Véase [Validación local](validacion-local-perfil.md). Se creó el repositorio GitHub propio y se inicializó Git local; CI remoto sigue pendiente de selección y activación. Las decisiones y evidencia necesarias para cerrar se enumeran en [Cierre de fase 1](cierre-fase-1.md).

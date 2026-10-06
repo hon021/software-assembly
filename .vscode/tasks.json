@@ -2,6 +2,33 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "Repository: commit CI",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/prepare-publication.mjs", "commit", "Enable GitHub Actions CI with repository and dependency gates"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
+			"label": "CI: dependency audit",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["${workspaceFolder}/scripts/ci-checks.mjs", "audit-local", "artifacts/ci/dependency-audit.json"],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"env": { "SOFTWARE_ASSEMBLY_DOTNET": "C:/Program Files/dotnet/dotnet.exe" }
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "CI: control tests",
+			"type": "process",
+			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
+			"args": ["--test", "${workspaceFolder}/scripts/ci-checks.test.mjs"],
+			"options": { "cwd": "${workspaceFolder}" },
+			"problemMatcher": []
+		},
+		{
 			"label": "Repository: prepare",
 			"type": "process",
 			"command": "${workspaceFolder}/.tools/node-v22.16.0-win-x64/node.exe",
