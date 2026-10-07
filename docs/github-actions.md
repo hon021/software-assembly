@@ -2,7 +2,7 @@
 
 Fecha: 2026-10-07
 
-Estado: CI de motor y frontend activo; PR #1 y PR #4 integrados con checks aprobados; protección de main verificada por API.
+Estado: CI de motor y frontend activo; PR #1, PR #4 y PR #6 integrados con checks aprobados; protección de main verificada por API.
 
 ## Workflow
 
@@ -40,6 +40,8 @@ En Windows con herramientas portables se pueden usar las tareas `CI: control tes
 La suite local de controles tiene 24 pruebas conformes, incluidas tres de protección de rama; la auditoría local real no reportó avisos. La primera ejecución alojada usó las 21 pruebas disponibles en ese commit.
 
 La [primera ejecución alojada](https://github.com/hon021/software-assembly/actions/runs/37531738965) del commit `13c778a` terminó con `success` el 2026-10-06. Todos los pasos de `Motor CI` fueron aprobados: controles, exclusiones, restore, build, tests, auditoría y publicación de evidencia. La protección se aplicó posteriormente mediante una operación administrativa autorizada, no como efecto del YAML.
+
+La ejecución del [PR #6](https://github.com/hon021/software-assembly/pull/6) aprobó `Motor checks`, `Frontend smoke` y `Motor CI` al integrar el evaluador de gates. La suite completa del motor pasó 109 pruebas.
 
 ## Activación y protección de main
 
