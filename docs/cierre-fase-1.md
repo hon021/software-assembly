@@ -15,7 +15,7 @@ Estado: base y validación local conformes; cierre formal pendiente.
 | Validación funcional frontend | Conforme. | Lint, build, 2 unitarias y 1 Chromium. |
 | Auditoría frontend | Conforme en el lockfile probado. | Sin vulnerabilidades conocidas reportadas. |
 | Smoke reproducible | Plantilla, lockfile y generador conformes localmente; integrado en main. | [PR #1](https://github.com/hon021/software-assembly/pull/1) y [ejecución alojada](https://github.com/hon021/software-assembly/actions/runs/37537764839): seis checks aprobados. |
-| CI del motor | Workflow activo; `Motor CI` exige éxito del motor y frontend. | [PR #1](https://github.com/hon021/software-assembly/pull/1) aprobado. La [prueba negativa #3](https://github.com/hon021/software-assembly/pull/3) hizo fallar `Motor CI`; GitHub marcó el PR como bloqueado y se cerró sin merge. |
+| CI del motor | Workflow activo; `Motor CI` exige éxito del motor y frontend. | [PR #1](https://github.com/hon021/software-assembly/pull/1) aprobó el smoke. La [prueba negativa #3](https://github.com/hon021/software-assembly/pull/3) hizo fallar `Motor CI` y GitHub marcó el PR como bloqueado; la evidencia quedó registrada por el [PR #4](https://github.com/hon021/software-assembly/pull/4), integrado en `7349346` con checks aprobados. |
 
 El [informe de validación](validacion-local-perfil.md) conserva el historial de fallos y sus correcciones. Una prueba local conforme no equivale a una aprobación humana ni a un servicio desplegado.
 
