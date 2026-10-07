@@ -8,7 +8,8 @@ Estado: base y validación local conformes; cierre formal pendiente.
 
 | Entregable | Estado | Evidencia |
 |---|---|---|
-| Núcleo independiente y máquina de estados | Implementado y probado. | 99 pruebas de la solución del motor. |
+| Núcleo independiente y máquina de estados | Implementado y probado. | 109 pruebas de la solución del motor. |
+| Evaluador de gates | Implementado y probado. | Solo permite entrega cuando todos los gates requeridos están aprobados con evidencia; 10 pruebas focalizadas cubren faltantes, estados no aprobados, duplicados y evidencia vacía. |
 | Configuración de dos dominios y un perfil común | Implementada y probada. | Aplicaciones sintéticas de comercio y logística. |
 | Registro firmado y publicación sin sobrescritura | Implementado y probado localmente. | Pruebas de firmas, autoridades, contenido y pins. |
 | Perfil backend/frontend corregido | Versión `2.0.2` publicada localmente. | Versiones anteriores conservadas; overrides auditables. |
