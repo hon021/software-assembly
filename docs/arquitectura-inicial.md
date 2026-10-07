@@ -132,6 +132,6 @@ Los resultados de gate distinguen `passed`, `failed`, `not-applicable` y `not-ex
 - [x] Publicar una versión corregida del perfil y repetir la auditoría frontend: cero vulnerabilidades conocidas reportadas en la versión actual.
 - [ ] Implementar validación en un runner aislado y autorizar herramientas y adaptadores.
 - [ ] Comprobar con un PR negativo que Motor CI impide completar un merge fallido.
-- [ ] Publicar por PR el smoke reproducible y observar su job alojado y check agregado.
+- [x] Publicar por PR el smoke reproducible y observar su job alojado y check agregado: PR #1 integrado en main; 6 checks aprobados.
 
-La fase permanece en curso. El smoke test verifica compatibilidad técnica, no reglas de negocio ni los pilotos completos hasta PR previstos para la fase 2. Véase [Validación local](validacion-local-perfil.md). El repositorio GitHub, Motor CI y la protección de main están activos; prueba negativa de PR, smoke reproducible y aceptación operativa siguen pendientes. Las decisiones y evidencia necesarias para cerrar se enumeran en [Cierre de fase 1](cierre-fase-1.md).
+La fase permanece en curso. El smoke test verifica compatibilidad técnica, no reglas de negocio ni los pilotos completos hasta PR previstos para la fase 2. Véase [Validación local](validacion-local-perfil.md). El repositorio GitHub, Motor CI, el smoke reproducible y la protección de main están activos; la prueba negativa de PR y la aceptación operativa siguen pendientes. Las decisiones y evidencia necesarias para cerrar se enumeran en [Cierre de fase 1](cierre-fase-1.md).

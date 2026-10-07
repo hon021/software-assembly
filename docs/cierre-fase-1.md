@@ -1,6 +1,7 @@
 # Cierre de fase 1
 
-Fecha: 2026-10-06  
+Fecha: 2026-10-07
+
 Estado: base y validación local conformes; cierre formal pendiente.
 
 ## Evidencia técnica disponible
@@ -13,8 +14,8 @@ Estado: base y validación local conformes; cierre formal pendiente.
 | Perfil backend/frontend corregido | Versión `2.0.2` publicada localmente. | Versiones anteriores conservadas; overrides auditables. |
 | Validación funcional frontend | Conforme. | Lint, build, 2 unitarias y 1 Chromium. |
 | Auditoría frontend | Conforme en el lockfile probado. | Sin vulnerabilidades conocidas reportadas. |
-| Smoke reproducible | Plantilla, lockfile y generador conformes localmente. | Instalación, lint, build, 2 unitarias y 1 Chromium desde copia nueva; publicación por PR pendiente. |
-| CI del motor | Workflow activo y main protegida con PR y Motor CI obligatorios. | [Ejecución #1](https://github.com/hon021/software-assembly/actions/runs/37531738965) aprobada; protección releída por API, prueba negativa de PR pendiente. |
+| Smoke reproducible | Plantilla, lockfile y generador conformes localmente; integrado en main. | [PR #1](https://github.com/hon021/software-assembly/pull/1) y [ejecución alojada](https://github.com/hon021/software-assembly/actions/runs/37537764839): seis checks aprobados. |
+| CI del motor | Workflow activo; `Motor CI` exige éxito del motor y frontend. | [Ejecución inicial](https://github.com/hon021/software-assembly/actions/runs/37531738965) y CI del [PR #1](https://github.com/hon021/software-assembly/pull/1) aprobados; protección releída por API, prueba negativa pendiente. |
 
 El [informe de validación](validacion-local-perfil.md) conserva el historial de fallos y sus correcciones. Una prueba local conforme no equivale a una aprobación humana ni a un servicio desplegado.
 
@@ -22,7 +23,6 @@ El [informe de validación](validacion-local-perfil.md) conserva el historial de
 
 | Pendiente | Información o autorización necesaria | Evidencia de cierre |
 |---|---|---|
-| Publicación del repositorio propio | Git local inicializado en `main`, remoto GitHub creado y publicación autorizada. | Commit publicado y árbol verificado sin referencias, herramientas o artefactos temporales. |
 | Prueba de políticas de PR | Autorización para crear una rama y PR de comprobación, sin merge de código fallido. | Evidencia de que CI fallido impide completar el PR; regla ya configurada. |
 | Entorno aislado | Runner autorizado, imagen o VM y límites de red, recursos y permisos. | Smoke regenerado desde copia limpia y prueba de aislamiento. |
 | Autoridades reales | Identidades de responsables y claves públicas confiables con alcance por dominio. | Paquete real aprobado y firma verificada, sin claves privadas en el agente. |
@@ -35,10 +35,9 @@ No se solicitarán contraseñas, tokens o claves privadas en documentos o respue
 
 ## Orden para terminar
 
-1. Publicar únicamente archivos propios y verificar el contenido del commit.
-2. Publicar el workflow GitHub Actions, verificar una ejecución alojada y configurar sus políticas; el YAML no activa automáticamente la protección de rama.
-3. Autorizar el runner o VM y ejecutar el smoke desde una copia limpia, sin material de referencia.
-4. Configurar autoridades y almacenamiento reales y comprobar publicación y lectura protegidas.
-5. Revisar y aprobar formalmente las decisiones y criterios de salida de fase 1.
+1. Realizar un PR de prueba con un gate fallido y verificar que la protección impide completarlo, sin integrar código fallido.
+2. Autorizar el runner o VM y ejecutar el smoke desde una copia limpia, sin material de referencia.
+3. Configurar autoridades y almacenamiento reales y comprobar publicación y lectura protegidas.
+4. Revisar y aprobar formalmente las decisiones y criterios de salida de fase 1.
 
 No se habilita merge autónomo ni producción en este cierre. La fase 2 permanece pendiente de aceptación de fase 1.
