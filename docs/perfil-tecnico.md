@@ -1,7 +1,7 @@
 # Perfil técnico backend/frontend
 
 Fecha: 2026-10-06  
-Estado: contrato, planificador y validación local conformes; aceptación operativa pendiente.
+Estado: contrato, planificador, validación local y CI alojado conformes; aceptación operativa pendiente.
 
 ## Alcance
 
@@ -26,7 +26,7 @@ El [planificador](../src/SoftwareAssembly.Core/TechnicalProfilePlanner.cs) valid
 | Configuración JavaScript de ESLint | 10.0.1 |
 | TypeScript ESLint | 8.71.1 |
 
-Estas versiones definen una configuración reproducible, no una certificación general de soporte o seguridad. El smoke test local ejecutó instalación congelada, lint, build, unitarias y Chromium; su auditoría no reportó vulnerabilidades conocidas. Cualquier actualización de herramientas requiere publicar otra versión del perfil y actualizar explícitamente la selección de la aplicación. CI y aceptación operativa siguen pendientes.
+Estas versiones definen una configuración reproducible, no una certificación general de soporte o seguridad. El smoke test local ejecutó instalación congelada, lint, build, unitarias y Chromium; su auditoría no reportó vulnerabilidades conocidas. El smoke reproducible también se ejecuta en GitHub Actions, donde el check agregado exige éxito del motor y frontend. Cualquier actualización de herramientas requiere publicar otra versión del perfil y actualizar explícitamente la selección de la aplicación. La aceptación operativa sigue pendiente.
 
 ### Override de seguridad
 

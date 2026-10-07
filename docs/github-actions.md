@@ -2,7 +2,7 @@
 
 Fecha: 2026-10-07
 
-Estado: CI de motor y frontend activo; PR #1 y seis checks aprobados; protección de main verificada por API.
+Estado: CI de motor y frontend activo; PR #1 y PR #4 integrados con checks aprobados; protección de main verificada por API.
 
 ## Workflow
 
@@ -62,7 +62,7 @@ El 2026-10-06 se aplicó y releyó la protección mediante la API de GitHub con 
 
 Las credenciales existentes de Git se utilizaron solo en memoria; no se imprimieron ni almacenaron en el proyecto. El script [configure-main-protection.mjs](../scripts/configure-main-protection.mjs) verifica el destino, permisos administrativos, check aprobado y respuesta final. No reemplaza automáticamente una protección preexistente.
 
-La regla ya está aplicada. El PR negativo #3 rastreó un archivo de `artifacts/`, haciendo fallar el gate de exclusiones y el agregado `Motor CI`. GitHub marcó el PR como bloqueado; se cerró sin merge y se eliminó la rama temporal.
+La regla ya está aplicada. El [PR negativo #3](https://github.com/hon021/software-assembly/pull/3) rastreó un archivo de `artifacts/`, haciendo fallar el gate de exclusiones y el agregado `Motor CI`. GitHub marcó el PR como bloqueado; se cerró sin merge y se eliminó la rama temporal. La evidencia quedó en el [PR #4](https://github.com/hon021/software-assembly/pull/4), integrado en `main` como `7349346` con checks aprobados.
 
 **No usar las tareas de commit y push directo a main para nuevos cambios.** El flujo será rama de trabajo, commit, push de esa rama, PR, CI y merge. Crear y publicar esas ramas y PRs requiere autorización explícita; no se efectuó como parte de la operación administrativa.
 
