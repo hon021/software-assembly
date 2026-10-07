@@ -45,7 +45,7 @@ La [primera ejecución alojada](https://github.com/hon021/software-assembly/acti
 
 - [x] Publicar el workflow y comprobar una ejecución conforme en GitHub Actions.
 - [x] Proteger `main` para exigir PR y el status check `Motor CI`, y deshabilitar force push y borrado.
-- [ ] Verificar con un PR de prueba que un gate fallido impide completar el merge.
+- [x] Verificar con un PR de prueba que un gate fallido impide completar el merge: [PR #3](https://github.com/hon021/software-assembly/pull/3) hizo fallar `Motor CI` y GitHub lo marcó como bloqueado; se cerró sin merge.
 
 El archivo YAML no configura protección de rama. Esa configuración requiere permisos administrativos y una decisión explícita sobre revisores y bypass. Los cambios de administración no se consideran realizados por inferencia.
 
@@ -62,7 +62,7 @@ El 2026-10-06 se aplicó y releyó la protección mediante la API de GitHub con 
 
 Las credenciales existentes de Git se utilizaron solo en memoria; no se imprimieron ni almacenaron en el proyecto. El script [configure-main-protection.mjs](../scripts/configure-main-protection.mjs) verifica el destino, permisos administrativos, check aprobado y respuesta final. No reemplaza automáticamente una protección preexistente.
 
-La regla ya está aplicada. Sigue pendiente una prueba negativa mediante un PR cuyo check falle; no se ha creado un PR artificial ni se ha intentado romper main para esa comprobación.
+La regla ya está aplicada. El PR negativo #3 rastreó un archivo de `artifacts/`, haciendo fallar el gate de exclusiones y el agregado `Motor CI`. GitHub marcó el PR como bloqueado; se cerró sin merge y se eliminó la rama temporal.
 
 **No usar las tareas de commit y push directo a main para nuevos cambios.** El flujo será rama de trabajo, commit, push de esa rama, PR, CI y merge. Crear y publicar esas ramas y PRs requiere autorización explícita; no se efectuó como parte de la operación administrativa.
 
@@ -72,4 +72,4 @@ El [PR #1](https://github.com/hon021/software-assembly/pull/1) incorporó el [sm
 
 Un runner alojado ejecuta el job en un entorno efímero, pero no constituye el sandbox de generación de código del motor. La aprobación real de dominios y su almacenamiento protegido siguen pendientes.
 
-La definición Azure Pipelines se conserva como alternativa no activa; no es consumida automáticamente por GitHub. La fase 1 no se declara cerrada solo por crear el workflow o proteger main. La prueba negativa de protección y la aceptación operativa siguen pendientes.
+La definición Azure Pipelines se conserva como alternativa no activa; no es consumida automáticamente por GitHub. La fase 1 no se declara cerrada solo por crear el workflow o proteger main. La aceptación operativa sigue pendiente.

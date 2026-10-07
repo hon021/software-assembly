@@ -56,6 +56,6 @@ El [PR #1](https://github.com/hon021/software-assembly/pull/1) se integró en `m
 
 ## Pendientes
 
-- Realizar la prueba negativa de protección y completar aprobación operativa de fase 1.
+- Completar aprobación operativa de fase 1.
 
 Crear este smoke no equivale a generar una aplicación de negocio ni completa la fase 2.
