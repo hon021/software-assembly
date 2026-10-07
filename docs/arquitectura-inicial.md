@@ -112,7 +112,7 @@ Un intento de sobrescribir una versión produce `IOException` por creación excl
 
 Los bloqueos del perfil distinguen versión histórica no ejecutable, rutas inválidas, etapas ausentes, dependencias desconocidas o cíclicas, evidencia ausente y herramientas ausentes o con versión incorrecta. Su catálogo se encuentra en [Perfil técnico](perfil-tecnico.md).
 
-Los resultados de gate distinguen `passed`, `failed`, `not-applicable` y `not-executed`. El esquema exige evidencia para un resultado aprobado y razón para los demás. El evaluador que decide si se puede entregar una aplicación según esos resultados está pendiente.
+Los resultados de gate distinguen `passed`, `failed`, `not-applicable` y `not-executed`. El esquema exige evidencia para un resultado aprobado y razón para los demás. `GateEvaluator` permite entregar solo cuando todos los gates requeridos están en `passed` y tienen evidencia; resultados faltantes, duplicados, no aprobados o sin evidencia no habilitan entrega.
 
 ## Seguimiento de fase 1
 
@@ -132,6 +132,7 @@ Los resultados de gate distinguen `passed`, `failed`, `not-applicable` y `not-ex
 - [x] Publicar una versión corregida del perfil y repetir la auditoría frontend: cero vulnerabilidades conocidas reportadas en la versión actual.
 - [ ] Implementar validación en un runner aislado y autorizar herramientas y adaptadores.
 - [x] Comprobar con un PR negativo que Motor CI impide completar un merge fallido: [PR #3](https://github.com/hon021/software-assembly/pull/3) falló en Motor CI y GitHub lo marcó como bloqueado; el resultado se registró en el [PR #4](https://github.com/hon021/software-assembly/pull/4), integrado en `7349346`.
+- [x] Evaluar los gates requeridos antes de permitir la entrega; bloquear resultados faltantes o no aprobados y exigir evidencia para cada gate aprobado.
 - [x] Publicar por PR el smoke reproducible y observar su job alojado y check agregado: PR #1 integrado en main; 6 checks aprobados.
 
 La fase permanece en curso. El smoke test verifica compatibilidad técnica, no reglas de negocio ni los pilotos completos hasta PR previstos para la fase 2. Véase [Validación local](validacion-local-perfil.md). El repositorio GitHub, Motor CI, el smoke reproducible y la protección de main están activos; la aceptación operativa sigue pendiente. Las decisiones y evidencia necesarias para cerrar se enumeran en [Cierre de fase 1](cierre-fase-1.md).
