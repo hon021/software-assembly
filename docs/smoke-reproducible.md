@@ -1,7 +1,8 @@
 # Smoke frontend reproducible
 
-Fecha: 2026-10-06  
-Estado: plantilla, generador y validación local conformes; publicación por PR y ejecución alojada pendientes.
+Fecha: 2026-10-07
+
+Estado: PR #1 integrado en main; smoke y check agregado aprobados en GitHub Actions.
 
 ## Objetivo
 
@@ -37,7 +38,7 @@ JUnit unitario y E2E se guardan por separado en `test-results`; los artefactos d
 
 ## GitHub Actions
 
-El workflow propuesto incorpora tres jobs:
+El workflow activo ejecuta tres jobs:
 
 | Job | Responsabilidad |
 |---|---|
@@ -51,11 +52,10 @@ El runner Ubuntu instala Chromium y sus dependencias del sistema; el entorno loc
 
 Los reportes se publican como artefactos de Actions durante 14 días. El directorio generado sigue excluido de Git; solo se versionan plantilla, lockfile y automatización.
 
+El [PR #1](https://github.com/hon021/software-assembly/pull/1) se integró en `main` como `5b15976`; sus seis checks terminaron aprobados. La [ejecución alojada](https://github.com/hon021/software-assembly/actions/runs/37537764839) validó la rama del PR.
+
 ## Pendientes
 
-- Publicar mediante rama y PR, sin push directo a main.
-- Observar una ejecución alojada conforme desde el checkout del PR.
-- Integrar el PR mediante el check obligatorio, sin relajar la protección.
 - Realizar la prueba negativa de protección y completar aprobación operativa de fase 1.
 
 Crear este smoke no equivale a generar una aplicación de negocio ni completa la fase 2.

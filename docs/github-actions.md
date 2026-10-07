@@ -1,7 +1,8 @@
 # CI en GitHub Actions
 
-Fecha: 2026-10-06  
-Estado: workflow activo y primera ejecución aprobada; protección de main aplicada y verificada por API.
+Fecha: 2026-10-07
+
+Estado: CI de motor y frontend activo; PR #1 y seis checks aprobados; protección de main verificada por API.
 
 ## Workflow
 
@@ -42,12 +43,9 @@ La [primera ejecución alojada](https://github.com/hon021/software-assembly/acti
 
 ## Activación y protección de main
 
-1. Publicar el workflow en el repositorio GitHub con autorización de commit y push.
-2. Comprobar en Actions una ejecución conforme del commit publicado.
-3. Crear una regla para `main` en Settings, Rules, Rulesets, o mediante branch protection disponible para el repositorio.
-4. Exigir pull request y el status check `Motor CI` antes de merge. Para equipos con otro revisor se recomienda al menos una aprobación; no se exige autoaprobación a un mantenedor único.
-5. Impedir force push y borrado de la rama; restringir bypass según los responsables autorizados.
-6. Verificar con un PR de prueba que un gate fallido impide completar el merge.
+- [x] Publicar el workflow y comprobar una ejecución conforme en GitHub Actions.
+- [x] Proteger `main` para exigir PR y el status check `Motor CI`, y deshabilitar force push y borrado.
+- [ ] Verificar con un PR de prueba que un gate fallido impide completar el merge.
 
 El archivo YAML no configura protección de rama. Esa configuración requiere permisos administrativos y una decisión explícita sobre revisores y bypass. Los cambios de administración no se consideran realizados por inferencia.
 
@@ -70,8 +68,8 @@ La regla ya está aplicada. Sigue pendiente una prueba negativa mediante un PR c
 
 ## Límites
 
-El workflow publicado inicialmente valida el motor. El cambio local incorpora un [smoke frontend reproducible](smoke-reproducible.md), con plantilla y lockfile propios y job independiente. `Motor CI` pasa a ser el check agregado que exige éxito de motor y frontend. Esa ampliación necesita publicación por PR y verificación alojada; no se considera activa por estar escrita localmente.
+El [PR #1](https://github.com/hon021/software-assembly/pull/1) incorporó el [smoke frontend reproducible](smoke-reproducible.md), con plantilla y lockfile propios y job independiente. `Motor CI` es el check agregado que exige éxito de motor y frontend. El PR se integró en `main` y sus seis checks fueron aprobados en [GitHub Actions](https://github.com/hon021/software-assembly/actions/runs/37537764839).
 
 Un runner alojado ejecuta el job en un entorno efímero, pero no constituye el sandbox de generación de código del motor. La aprobación real de dominios y su almacenamiento protegido siguen pendientes.
 
-La definición Azure Pipelines se conserva como alternativa no activa; no es consumida automáticamente por GitHub. La fase 1 no se declara cerrada solo por crear el workflow o proteger main. Los cambios locales que documentan la protección y añaden su script todavía deben publicarse mediante PR.
+La definición Azure Pipelines se conserva como alternativa no activa; no es consumida automáticamente por GitHub. La fase 1 no se declara cerrada solo por crear el workflow o proteger main. La prueba negativa de protección y la aceptación operativa siguen pendientes.
